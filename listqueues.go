@@ -4,24 +4,16 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 )
 
 func main() {
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String("us-east-1"),
-		Credentials: credentials.NewSharedCredentials("", "allan.cadenilla"),
-	})
-
-	if err != nil {
-		fmt.Println("error", err)
-		return
-	}
+	sess := session.Must(session.NewSession(&aws.Config{
+		Region: aws.String("us-east-1"),
+	}))
 
 	credentials, err := sess.Config.Credentials.Get()
-
 	fmt.Println(credentials)
 
 	svc := sqs.New(sess)
